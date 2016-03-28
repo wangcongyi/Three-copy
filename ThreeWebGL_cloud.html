@@ -11,8 +11,8 @@
     </style>
 </head>
 <body>
-<script src="THREE.js"></script>
-<script src="ThreeExtras.js"></script>
+<script src="./js/THREEWebGL.js"></script>
+<script src="./js/ThreeExtras.js"></script>
 <script id="vs" type="x-shader/x-vertex">
     varying vec2 vUv;
 
@@ -88,7 +88,7 @@
 
         geometry = new THREE.Geometry();
 
-        var texture = THREE.ImageUtils.loadTexture('./cloud.png');
+        var texture = THREE.ImageUtils.loadTexture('./img/cloud.png');
         texture.magFilter = THREE.LinearMipMapLinearFilter;
         texture.minFilter = THREE.LinearMipMapLinearFilter;
 
