@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="three.min.js"></script>
+    <script src="js/three.min.js"></script>
+    <script src="js/stats.js"></script>
+    <script src="js/dat.gui.js"></script>
     <style>
         body {
             margin: 0;
@@ -12,14 +14,30 @@
     </style>
 </head>
 <body>
+<div id="stats"></div>
 <script>
   const w = window.innerWidth;
   const h = window.innerHeight;
+  const stats = new Stats();
+  stats.setMode(0);
+  stats.domElement.style.position = 'absolute';
+  stats.domElement.style.left = '0px';
+  stats.domElement.style.top = '0px';
+  document.getElementById('stats').appendChild(stats.domElement);
+
+  const controls = new function () {
+    this.rotationSpeed = 0.02;
+    this.bouncingSpeed = 0.03;
+  };
+
+  const gui = new dat.GUI();
+  gui.add(controls, 'rotationSpeed', 0, 0.5);
+  gui.add(controls, 'bouncingSpeed', 0, 0.5);
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
   const renderer = new THREE.WebGLRenderer();
-  renderer.setClearColor(new THREE.Color(0xEEEEEE,1));
+  renderer.setClearColor(new THREE.Color(0xEEEEEE, 1));
   renderer.setSize(w, h);
   renderer.shadowMapEnabled = true;
 
@@ -50,7 +68,7 @@
 
 
   const spG = new THREE.SphereGeometry(4, 20, 20);
-  const spM = new THREE.MeshLambertMaterial({ color: 0x7777ff});
+  const spM = new THREE.MeshLambertMaterial({ color: 0x7777ff });
   const sp = new THREE.Mesh(spG, spM);
   sp.position.x = 20;
   sp.position.y = 4;
@@ -60,10 +78,10 @@
   scene.add(sp);
 
 
-      const spotLight = new THREE.SpotLight(0xffffff);
-      spotLight.castShadow = true;
-      spotLight.position.set(-40, 60, -10);
-      scene.add(spotLight);
+  const spotLight = new THREE.SpotLight(0xffffff);
+  spotLight.castShadow = true;
+  spotLight.position.set(-40, 60, -10);
+  scene.add(spotLight);
 
 
   camera.position.x = -30;
@@ -72,7 +90,26 @@
   camera.lookAt(scene.position);
 
   document.querySelector('body').appendChild(renderer.domElement);
-  renderer.render(scene, camera);
+  renderScene();
+
+
+  var step = 0;
+
+  function renderScene() {
+    stats.update();
+    cube.rotation.x += controls.rotationSpeed;
+    cube.rotation.y += controls.rotationSpeed;
+    cube.rotation.z += controls.bouncingSpeed;
+
+
+    step += controls.bouncingSpeed;
+    sp.position.x = 20 + (10 * (Math.cos(step)));
+    sp.position.y = 2 + (10 * (Math.abs(Math.sin(step))));
+
+    requestAnimationFrame(renderScene);
+    renderer.render(scene, camera)
+  }
+
 
 </script>
 </body>
