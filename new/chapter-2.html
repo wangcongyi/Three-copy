@@ -20,6 +20,13 @@
   const h = window.innerHeight;
   const stats = initStats();
   const scene = new THREE.Scene();
+
+  //scene.fog = new THREE.Fog(0xffffff,0.015,100);
+  //scene.fog = new THREE.FogExp2(0xfffff,0.01);
+  //给场景增加雾化效果
+
+
+
   const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
 
   scene.add(camera);
