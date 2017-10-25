@@ -1,5 +1,5 @@
 ## scene 中最常用的方法和属性
-### 具体代码请参照 [chapter-2.html](https://github.com/wangcongyi/Three-copy/blob/master/new/chapter-2.html) 的代码
+### 具体代码请参照 [chapter-2.html](https://github.com/wangcongyi/Three-copy/blob/master/new/chapter-2-1.html) 的代码
 
 
 ```js
