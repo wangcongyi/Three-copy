@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>创建自定义几何体</title>
+    <script src="js/three.min.js"></script>
+    <script src="js/stats.js"></script>
+    <script src="js/dat.gui.js"></script>
+</head>
+<body>
+<div id="stats"></div>
+
+<script>
+
+
+  const stats = initStats();
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45,window.innerWidth/window.innerHeight,0.1,1000);
+  const renderer = new THREE.WebGLRenderer();
+
+  renderer.setClearColor(new THREE.Color(0xeeeee,1.0));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  renderer.shadowMapEnabled = true;
+
+  const planeG = new THREE.PlaneGeometry(60,40,1,1);
+  const planeM = new THREE.MeshLambertMaterial({color:0xffffff});
+  const plane = new THREE.Mesh(planeG,planeM);
+  plane.receiveShadow = true;
+  plane.rotation.x = -0.5 * Math.PI;
+  plane.position.x = 0;
+  plane.position.y = 0;
+  plane.position.z = 0;
+  scene.add(plane);
+
+  camera.position.x = -50;
+  camera.position.y = 30;
+  camera.position.z = 20;
+  camera.lookAt(new THREE.Vector3(-10,0,0));
+
+
+  document.body.appendChild(renderer.domElement);
+
+
+  function render(){
+    stats.update();
+    requestAnimationFrame(render);
+    renderer.render(scene,camera)
+  }
+
+
+  function initStats() {
+    const stats = new Stats();
+    stats.setMode(0)
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.left = '0px';
+    stats.domElement.style.top = '0px';
+    document.getElementById('stats').appendChild(stats.domElement)
+    return stats
+  }
+  render()
+
+</script>
+</body>
+</html>
