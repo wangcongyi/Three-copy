@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>创建自定义几何体</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
     <script src="js/three.min.js"></script>
     <script src="js/stats.js"></script>
     <script src="js/dat.gui.js"></script>
@@ -78,7 +84,12 @@
   ];
 
   const mesh = THREE.SceneUtils.createMultiMaterialObject(geom, materials);
-  mesh.children.forEach(e => e.castShadow = true);
+  mesh.children.forEach(e => {
+    e.castShadow = true;
+    e.geometry.vertices = vertices;
+    e.geometry.verticesNeedUpdate = true;
+    e.geometry.computeFaceNormals()
+  });
   scene.add(mesh);
   function addControl(x, y, z) {
     return new function () {
@@ -105,7 +116,7 @@
       const clonedGeometry = mesh.children[0].geometry.clone();
       const materials = [
         new THREE.MeshLambertMaterial({ opacity: 0.6, color: 0xff44ff, transparent: true }),
-        new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true })
+        new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true })
       ];
       const mesh2 = THREE.SceneUtils.createMultiMaterialObject(clonedGeometry, materials);
       mesh2.children.forEach(e => e.castShadow = true);

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script src="js/three.min.js"></script>
+    <script src="js/stats.js"></script>
+    <script src="js/dat.gui.js"></script>
+</head>
+<body>
+<div id="stats"></div>
+<script>
+  var w = window.innerWidth;
+  var h = window.innerHeight;
+  var stats = initStats();
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
+  var renderer = new THREE.WebGLRenderer();
+
+  renderer.setClearColor(new THREE.Color(0xeeeeee, 1));
+  renderer.setSize(w, h);
+  renderer.shadowMapEnabled = true;
+
+  var planeGeometry = new THREE.PlaneGeometry(60, 40, 1, 1);
+  var planeMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
+  var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+  plane.receiveShadow = true;
+  plane.rotation.x = -0.5 * Math.PI;
+  plane.position.x = 0;
+  plane.position.y = 0;
+  plane.position.z = 0;
+
+  scene.add(plane);
+
+  camera.position.x = -30;
+  camera.position.y = 40;
+  camera.position.z = 30;
+  camera.lookAt(scene.position);
+
+  var ambientLight = new THREE.AmbientLight(0x0c0c0c);
+  scene.add(ambientLight);
+
+  var spotLight = new THREE.SpotLight(0xffffff);
+  spotLight.position.set(-40, 60, 20);
+  spotLight.castShadow = true;
+  scene.add(spotLight);
+
+
+  document.getElementById('stats').appendChild(renderer.domElement);
+
+  function initStats() {
+    const stats = new Stats();
+    stats.setMode(0);
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.left = '0px';
+    stats.domElement.style.top = '0px';
+    document.getElementById("stats").appendChild(stats.domElement);
+    return stats;
+  }
+
+
+</script>
+</body>
+</html>
